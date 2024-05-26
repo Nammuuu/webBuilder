@@ -2,7 +2,7 @@ import Image from "next/image";
 import Navbar from './components/Navbar';
 import Nav from './components/Nav';
 
-import Navv from './components/navv';
+import Navv from './components/Navv';
 
 
 export default function Home() {
