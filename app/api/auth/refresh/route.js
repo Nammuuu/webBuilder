@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { verifyToken } from '../../../../../lib/verifyToken';
+// import { verifyToken } from '../../../../../lib/verifyToken';
+
+import { verifyToken } from '../../../../lib/verifyToken';
+
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
