@@ -1,4 +1,5 @@
-// api/admin/themes.js
+// api/admin/themes/allthame/route.js
+// api/admin/themes/allthame/route.js
 
 import { NextResponse } from 'next/server';
 import connectToDatabase from '../../../../lib/mongodb';
@@ -30,6 +31,41 @@ export async function GET(req) {
     return NextResponse.json({ message: 'Failed to fetch themes' }, { status: 500 });
   }
 }
+
+
+
+
+
+// import { NextResponse } from 'next/server';
+// import connectToDatabase from '../../../../lib/mongodb';
+// import Theme from '../../../../models/Theme';
+// import { verifyToken } from '../../../../lib/verifyToken';
+
+// export async function GET(req) {
+//   await connectToDatabase();
+
+//   try {
+//     const authHeader = req.headers.get('authorization');
+//     if (!authHeader) {
+//       return NextResponse.json({ message: 'No token provided' }, { status: 403 });
+//     }
+    
+//     const token = authHeader.split(' ')[1];
+//     const decoded = verifyToken(token);
+
+//     if (decoded.role !== 'admin') {
+//       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
+//     }
+
+//     const themes = await Theme.find({});
+//     const count = await Theme.countDocuments({});
+    
+//     return NextResponse.json({ themes, count }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error fetching themes:', error);
+//     return NextResponse.json({ message: 'Failed to fetch themes' }, { status: 500 });
+//   }
+// }
 
 
 
