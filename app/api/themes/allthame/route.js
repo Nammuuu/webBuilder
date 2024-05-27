@@ -16,7 +16,7 @@ export async function GET(req) {
     if (!authHeader) {
       return NextResponse.json({ message: 'No token provided' }, { status: 403 });
     }
-    
+     
     const token = authHeader.split(' ')[1];
     const decoded = verifyToken(token);
 
@@ -73,54 +73,54 @@ export async function GET(req) {
 
 
 
-// export async function PUT(req) {
-//   await connectToDatabase();
+export async function PUT(req) {
+  await connectToDatabase();
 
-//   try {
-//     // const token = req.headers.get('authorization')?.split(' ')[1];
-//     const decoded = verifyToken(token);
+  try {
+    // const token = req.headers.get('authorization')?.split(' ')[1];
+    const decoded = verifyToken(token);
 
-//     if (decoded.role !== 'admin') {
-//       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
-//     }
+    if (decoded.role !== 'admin') {
+      return NextResponse.json({ message: 'Access denied' }, { status: 403 });
+    }
 
-//     const { id } = req.query;
-//     const { content, name, description } = await req.json();
+    const { id } = req.query;
+    const { content, name, description } = await req.json();
     
-//     const updatedTheme = await Theme.findByIdAndUpdate(id, { content, name, description }, { new: true });
+    const updatedTheme = await Theme.findByIdAndUpdate(id, { content, name, description }, { new: true });
     
-//     if (!updatedTheme) {
-//       return NextResponse.json({ message: 'Theme not found' }, { status: 404 });
-//     }
+    if (!updatedTheme) {
+      return NextResponse.json({ message: 'Theme not found' }, { status: 404 });
+    }
 
-//     return NextResponse.json({ message: 'Theme updated successfully', theme: updatedTheme }, { status: 200 });
-//   } catch (error) {
-//     console.error('Error updating theme:', error);
-//     return NextResponse.json({ message: 'Failed to update theme' }, { status: 500 });
-//   }
-// }
+    return NextResponse.json({ message: 'Theme updated successfully', theme: updatedTheme }, { status: 200 });
+  } catch (error) {
+    console.error('Error updating theme:', error);
+    return NextResponse.json({ message: 'Failed to update theme' }, { status: 500 });
+  }
+}
 
-// export async function DELETE(req) {
-//   await connectToDatabase();
+export async function DELETE(req) {
+  await connectToDatabase();
 
-//   try {
-//     // const token = req.headers.get('authorization')?.split(' ')[1];
-//     const decoded = verifyToken(token);
+  try {
+    // const token = req.headers.get('authorization')?.split(' ')[1];
+    const decoded = verifyToken(token);
 
-//     if (decoded.role !== 'admin') {
-//       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
-//     }
+    if (decoded.role !== 'admin') {
+      return NextResponse.json({ message: 'Access denied' }, { status: 403 });
+    }
 
-//     const { id } = req.query;
-//     const deletedTheme = await Theme.findByIdAndDelete(id);
+    const { id } = req.query;
+    const deletedTheme = await Theme.findByIdAndDelete(id);
     
-//     if (!deletedTheme) {
-//       return NextResponse.json({ message: 'Theme not found' }, { status: 404 });
-//     }
+    if (!deletedTheme) {
+      return NextResponse.json({ message: 'Theme not found' }, { status: 404 });
+    }
 
-//     return NextResponse.json({ message: 'Theme deleted successfully' }, { status: 200 });
-//   } catch (error) {
-//     console.error('Error deleting theme:', error);
-//     return NextResponse.json({ message: 'Failed to delete theme' }, { status: 500 });
-//   }
-// }
+    return NextResponse.json({ message: 'Theme deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting theme:', error);
+    return NextResponse.json({ message: 'Failed to delete theme' }, { status: 500 });
+  }
+}
