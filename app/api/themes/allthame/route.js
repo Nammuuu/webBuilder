@@ -1,6 +1,8 @@
 // api/admin/themes/allthame/route.js
 // api/admin/themes/allthame/route.js
 
+// api/admin/themes/allthame/route.js
+
 import { NextResponse } from 'next/server';
 import connectToDatabase from '../../../../lib/mongodb';
 import Theme from '../../../../models/Theme';

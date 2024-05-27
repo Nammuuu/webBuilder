@@ -13,12 +13,13 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    experimental: {
-      appDir: true, // Ensure app directory features are enabled
-      serverActions: true, // Enable server actions if applicable
-    },
-  };
-  
-  export default nextConfig;
+  reactStrictMode: true,
+  experimental: {
+    appDir: true,
+    serverActions: true,
+  },
+};
+
+export default nextConfig;
+
   
