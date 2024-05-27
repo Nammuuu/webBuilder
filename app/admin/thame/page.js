@@ -7,7 +7,7 @@ import axios from 'axios';
 import ThemeEditor from '../../components/ThemeEditor';
 import styles from '../../../styles/AdminPage.module.css';
 
-const AdminDashboard = () => {
+const AdminDashboa = () => {
   const [users, setUsers] = useState([]);
   const [notification, setNotification] = useState('');
   const [userId, setUserId] = useState('');
@@ -50,4 +50,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboa;

@@ -63,27 +63,27 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDelete = async (userId) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
+  // const handleDelete = async (userId) => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     console.error('No token found');
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.delete(`/api/admin/users/del/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        data: { id: userId },
-      });
-      console.log('User deleted successfully:', response.data);
-      setUsers(users.filter(user => user._id !== userId));
-    } catch (error) {
-      console.error('Failed to delete user:', error.response?.data?.message || error.message);
-    }
-  };
+  //   try {
+  //     const response = await axios.delete(`/api/admin/users/del/${userId}`, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //       data: { id: userId },
+  //     });
+  //     console.log('User deleted successfully:', response.data);
+  //     setUsers(users.filter(user => user._id !== userId));
+  //   } catch (error) {
+  //     console.error('Failed to delete user:', error.response?.data?.message || error.message);
+  //   }
+  // };
 
   const handleNotificationSubmit = async (e) => {
     e.preventDefault();
@@ -114,6 +114,8 @@ const AdminDashboard = () => {
       console.error('Failed to send notification', error);
     }
   };
+
+  // <button onClick={() => handleDelete(user._id)}>Delete</button>
 
   return (
     <div className={styles.adminDashboard}>
@@ -146,7 +148,7 @@ const AdminDashboard = () => {
                 <button onClick={() => handleUpdate(user._id, { isActive: !user.isActive })}>
                   {user.isActive ? 'Deactivate' : 'Activate'}
                 </button>
-                <button onClick={() => handleDelete(user._id)}>Delete</button>
+                
               </td>
             </tr>
           ))}
