@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ThemeEditor from '../../components/ThemeEditor';
+import dynamic from 'next/dynamic';
 import styles from '../../../styles/AdminPage.module.css';
+
+const ThemeEditor = dynamic(() => import('../../components/ThemeEditor'), { ssr: false });
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -12,7 +14,35 @@ const AdminDashboard = () => {
   const [theme, setTheme] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    if (typeof window !== 'undefined') {
+      const fetchUsers = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+
+        try {
+          const res = await axios.get('/api/admin/users', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+
+          setUsers(res.data);
+        } catch (error) {
+          console.error('Failed to fetch users', error.response?.data?.message || error.message);
+        }
+      };
+
+      fetchUsers();
+    }
+  }, []);
+
+  const handleSave = async (content) => {
+    if (typeof window !== 'undefined') {
+      const name = prompt('Enter theme name');
+      const description = prompt('Enter theme description');
       const token = localStorage.getItem('token');
       if (!token) {
         console.error('No token found');
@@ -20,102 +50,72 @@ const AdminDashboard = () => {
       }
 
       try {
-        const res = await axios.get('/api/admin/users', {
+        await axios.post('/api/themes', { userId, content, name, description }, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
-
-        setUsers(res.data);
       } catch (error) {
-        console.error('Failed to fetch users', error.response?.data?.message || error.message);
+        console.error('Failed to save theme', error);
       }
-    };
- 
-    fetchUsers();
-  }, []);
-
-  const handleSave = async (content) => {
-    const name = prompt('Enter theme name');
-    const description = prompt('Enter theme description');
-    await axios.post('/api/themes', { userId, content, name, description });
+    }
   };
 
   const handleUpdate = async (id, updates) => {
-    try {
-      const res = await fetch(`/api/admin/users/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(updates),
-      });
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch(`/api/admin/users/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(updates),
+        });
 
-      if (res.ok) {
-        const updatedUser = await res.json();
-        setUsers(users.map(user => (user._id === id ? updatedUser : user)));
-      } else {
-        console.error('Failed to update user');
+        if (res.ok) {
+          const updatedUser = await res.json();
+          setUsers(users.map(user => (user._id === id ? updatedUser : user)));
+        } else {
+          console.error('Failed to update user');
+        }
+      } catch (error) {
+        console.error('Failed to update user', error);
       }
-    } catch (error) {
-      console.error('Failed to update user', error);
     }
   };
-
-  // const handleDelete = async (userId) => {
-  //   const token = localStorage.getItem('token');
-  //   if (!token) {
-  //     console.error('No token found');
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.delete(`/api/admin/users/del/${userId}`, {
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       data: { id: userId },
-  //     });
-  //     console.log('User deleted successfully:', response.data);
-  //     setUsers(users.filter(user => user._id !== userId));
-  //   } catch (error) {
-  //     console.error('Failed to delete user:', error.response?.data?.message || error.message);
-  //   }
-  // };
 
   const handleNotificationSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/admin/notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ userId, message: notification }),
-      });
-
-      if (res.ok) {
-        setNotification('');
-        setUserId('');
-        console.log('Notification sent successfully');
-      } else {
-        console.error('Failed to send notification');
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
       }
-    } catch (error) {
-      console.error('Failed to send notification', error);
+
+      try {
+        const res = await fetch('/api/admin/notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ userId, message: notification }),
+        });
+
+        if (res.ok) {
+          setNotification('');
+          setUserId('');
+          console.log('Notification sent successfully');
+        } else {
+          console.error('Failed to send notification');
+        }
+      } catch (error) {
+        console.error('Failed to send notification', error);
+      }
     }
   };
-
-  // <button onClick={() => handleDelete(user._id)}>Delete</button>
 
   return (
     <div className={styles.adminDashboard}>
@@ -148,7 +148,6 @@ const AdminDashboard = () => {
                 <button onClick={() => handleUpdate(user._id, { isActive: !user.isActive })}>
                   {user.isActive ? 'Deactivate' : 'Activate'}
                 </button>
-                
               </td>
             </tr>
           ))}
