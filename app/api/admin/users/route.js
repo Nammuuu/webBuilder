@@ -155,24 +155,24 @@ export async function GET(req) {
 //   }
 // }
 
-export async function DELETE(req) {
-  const authHeader = req.headers.get('authorization');
-  if (!authHeader) {
-    return NextResponse.json({ message: 'No token provided' }, { status: 403 });
-  }
+// export async function DELETE(req) {
+//   const authHeader = req.headers.get('authorization');
+//   if (!authHeader) {
+//     return NextResponse.json({ message: 'No token provided' }, { status: 403 });
+//   }
 
-  const token = authHeader.split(' ')[1];
-  try {
-    const decoded = verify(token, JWT_SECRET);
-    if (decoded.role !== 'admin') {
-      return NextResponse.json({ message: 'Access denied' }, { status: 403 });
-    }
+//   const token = authHeader.split(' ')[1];
+//   try {
+//     const decoded = verify(token, JWT_SECRET);
+//     if (decoded.role !== 'admin') {
+//       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
+//     }
 
-    const { id } = await req.json();
-    await connectToDatabase();
-    await User.findByIdAndDelete(id);
-    return NextResponse.json({ message: 'User deleted' }, { status: 200 });
-  } catch (err) {
-    return NextResponse.json({ message: 'Failed to authenticate token' }, { status: 500 });
-  }
-}
+//     const { id } = await req.json();
+//     await connectToDatabase();
+//     await User.findByIdAndDelete(id);
+//     return NextResponse.json({ message: 'User deleted' }, { status: 200 });
+//   } catch (err) {
+//     return NextResponse.json({ message: 'Failed to authenticate token' }, { status: 500 });
+//   }
+// }

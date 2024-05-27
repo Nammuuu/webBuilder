@@ -63,8 +63,7 @@
 
 // export default Themes;
 
-"use client"
-// pages/admin/themes/index.js
+// pages/admin/allthame/page.js
 
 'use client';
 
@@ -122,50 +121,53 @@ const AdminThemes = () => {
     fetchThemes();
   }, []);
 
-  const updateTheme = async (id, updateData) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
+  // const updateTheme = async (id, updateData) => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     console.error('No token found');
+  //     return;
+  //   }
 
-    try {
-      await axios.put(`/api/admin/themes`, { id, updateData }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNotification('Theme updated successfully');
-      fetchThemes(); // Refresh themes after update
-    } catch (error) {
-      console.error('Failed to update theme:', error.response?.data?.message || error.message);
-      setNotification('Failed to update theme');
-    }
-  };
+  //   try {
+  //     await axios.put(`/api/admin/themes`, { id, updateData }, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //       },
+  //     });
+  //     setNotification('Theme updated successfully');
+  //     fetchThemes(); // Refresh themes after update
+  //   } catch (error) {
+  //     console.error('Failed to update theme:', error.response?.data?.message || error.message);
+  //     setNotification('Failed to update theme');
+  //   }
+  // };
 
-  const deleteTheme = async (id) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
+  // const deleteTheme = async (id) => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     console.error('No token found');
+  //     return;
+  //   }
 
-    try {
-      await axios.delete(`/api/admin/themes`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        data: { id }
-      });
-      setNotification('Theme deleted successfully');
-      fetchThemes(); // Refresh themes after deletion
-    } catch (error) {
-      console.error('Failed to delete theme:', error.response?.data?.message || error.message);
-      setNotification('Failed to delete theme');
-    }
-  };
+  //   try {
+  //     await axios.delete(`/api/admin/themes`, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //       },
+  //       data: { id }
+  //     });
+  //     setNotification('Theme deleted successfully');
+  //     fetchThemes(); // Refresh themes after deletion
+  //   } catch (error) {
+  //     console.error('Failed to delete theme:', error.response?.data?.message || error.message);
+  //     setNotification('Failed to delete theme');
+  //   }
+  // };
 
-  return (
+  // <button onClick={() => updateTheme(theme._id, { /* updated data */ })}>Update</button>
+  //           <button onClick={() => deleteTheme(theme._id)}>Delete</button>
+
+  return ( 
     <div>
       <h1>Admin Themes</h1>
       {notification && <p>{notification}</p>}
@@ -174,8 +176,7 @@ const AdminThemes = () => {
         {themes.map((theme) => (
           <li key={theme._id}>
             {theme.name} - {theme.description}
-            <button onClick={() => updateTheme(theme._id, { /* updated data */ })}>Update</button>
-            <button onClick={() => deleteTheme(theme._id)}>Delete</button>
+            
           </li>
         ))}
       </ul>
