@@ -1,3 +1,5 @@
+// admin/thame
+
 'use client';
 
 import { useEffect, useState } from 'react';
