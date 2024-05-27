@@ -1,11 +1,12 @@
 // admin/thame
-
 'use client';
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ThemeEditor from '../../components/ThemeEditor';
+// import ThemeEditor from '../../components/ThemeEditor';
 import styles from '../../../styles/AdminPage.module.css';
+import dynamic from 'next/dynamic';
+const ThemeEditor = dynamic(() => import('../../components/ThemeEditor'), { ssr: false });
 
 const AdminDashboa = () => {
   const [users, setUsers] = useState([]);
@@ -14,22 +15,25 @@ const AdminDashboa = () => {
   const [theme, setTheme] = useState(null);
 
   const fetchUsers = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
+    // Ensure this code only runs on the client
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
 
-    try {
-      const res = await axios.get('/api/admin/users', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      try {
+        const res = await axios.get('/api/admin/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
-      setUsers(res.data);
-    } catch (error) {
-      console.error('Failed to fetch users', error.response?.data?.message || error.message);
+        setUsers(res.data);
+      } catch (error) {
+        console.error('Failed to fetch users', error.response?.data?.message || error.message);
+      }
     }
   };
 

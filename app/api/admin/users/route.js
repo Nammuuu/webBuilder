@@ -100,11 +100,48 @@
 
 
 
+// import { NextResponse } from 'next/server';
+// import connectToDatabase from '../../../../lib/mongodb';
+// import User from '../../../../models/User';
+// import { verifyToken } from '../../../../lib/verifyToken';
+
+
+// export async function GET(req) { 
+//   try {
+//     const decoded = verifyToken(req);
+
+//     if (decoded.role !== 'admin') {
+//       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
+//     }
+
+//     await connectToDatabase();
+//     const users = await User.find({});
+//     return NextResponse.json(users, { status: 200 });
+//   } catch (err) {
+//     if (err.message === 'Token expired') {
+//       return NextResponse.json({ message: 'Token expired' }, { status: 401 });
+//     }
+//     if (err.message === 'No token provided' || err.message === 'Failed to authenticate token') {
+//       return NextResponse.json({ message: err.message }, { status: 403 });
+//     }
+//     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+// new gpt 
 import { NextResponse } from 'next/server';
 import connectToDatabase from '../../../../lib/mongodb';
 import User from '../../../../models/User';
 import { verifyToken } from '../../../../lib/verifyToken';
-
 
 export async function GET(req) { 
   try {
@@ -127,6 +164,18 @@ export async function GET(req) {
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // const JWT_SECRET = process.env.JWT_SECRET;
